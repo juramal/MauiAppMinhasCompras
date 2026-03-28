@@ -13,11 +13,19 @@ namespace MauiAppMinhasCompras.Models
             get => _descricao;
             set
             {
-                if (value == null) { 
-                    throw new ArgumentException("Descrição não pode ser vazia");
+                try
+                {
+                    if (value == null)
+                    {
+                        throw new ArgumentException("Descrição não pode ser vazia");
+                    }
+                    _descricao = value;
                 }
-                _descricao = value;
-            } 
+                catch (Exception ex)
+                {
+                    throw new Exception($"Erro ao definir Descricao: {ex.Message}", ex);
+                }
+            }
         }
 
         double _quantidade;
@@ -26,25 +34,40 @@ namespace MauiAppMinhasCompras.Models
             get => _quantidade;
             set
             {
-                if (value == null) { 
-                    throw new ArgumentException("Quantidade não pode ser vazia");
+                try
+                {
+                    if (value < 0)
+                    {
+                        throw new ArgumentException("Quantidade não pode ser negativa");
+                    }
+                    _quantidade = value;
                 }
-                _quantidade = value;
-            } 
+                catch (Exception ex)
+                {
+                    throw new Exception($"Erro ao definir Quantidade: {ex.Message}", ex);
+                }
+            }
         }
 
         double _preco;
 
         public double Preco { 
-            get => _preco; 
+            get => _preco;
             set
             {
-                if (value == null)
+                try
                 {
-                    throw new ArgumentException("Preço não pode ser vazia");
+                    if (value < 0)
+                    {
+                        throw new ArgumentException("Preço não pode ser negativo");
+                    }
+                    _preco = value;
                 }
-                _preco = value;
-            } 
+                catch (Exception ex)
+                {
+                    throw new Exception($"Erro ao definir Preco: {ex.Message}", ex);
+                }
+            }
         }
 
 
