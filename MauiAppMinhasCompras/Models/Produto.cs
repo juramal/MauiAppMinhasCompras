@@ -74,5 +74,26 @@ namespace MauiAppMinhasCompras.Models
 
         public double Total { get => Quantidade * Preco; }
 
+        string _categoria;
+
+        public string Categoria
+        {
+            get => _categoria;
+            set
+            {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(value))
+                    {
+                        throw new ArgumentException("Categoria não pode ser vazia");
+                    }
+                    _categoria = value;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Erro ao definir Categoria: {ex.Message}", ex);
+                }
+            }
+        }
     }
 }

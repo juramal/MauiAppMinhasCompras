@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiAppMinhasCompras.Views.RelatorioCategorias"
+             Title="Relatório por Categorias">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Fechar" Clicked="OnFecharClicked"/>
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="10">
+            <Label Text="Relatório de Produtos por Categoria" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,0,0,20"/>
+            <CollectionView x:Name="collectionViewRelatorio">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout Padding="10" Spacing="5">
+                            <Label Text="{Binding Categoria}" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="{Binding QuantidadeProdutos, StringFormat='Quantidade de produtos: {0}'}" FontSize="14"/>
+                            <Label Text="{Binding TotalCategoria, StringFormat='Total: {0:C}'}" FontSize="16" FontAttributes="Bold" TextColor="Green"/>
+                            <BoxView HeightRequest="1" Color="LightGray" Margin="0,10,0,0"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <BoxView HeightRequest="2" Color="Gray" Margin="0,10,0,10"/>
+            <Label x:Name="lblTotalGeral" FontSize="18" FontAttributes="Bold" HorizontalOptions="End" TextColor="DarkGreen"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

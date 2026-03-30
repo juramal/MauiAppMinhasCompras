@@ -11,6 +11,16 @@ namespace MauiAppMinhasCompras.Helpers
         {
             _conn = new SQLiteAsyncConnection(path);
             _conn.CreateTableAsync<Produto>().Wait();
+
+            // Migração: Adiciona a coluna Categoria se não existir
+            try
+            {
+                _conn.ExecuteAsync("ALTER TABLE Produto ADD COLUMN Categoria TEXT").Wait();
+            }
+            catch
+            {
+                // Coluna já existe, ignorar erro
+            }
         }
 
         public Task<int> Insert(Produto p) 
@@ -20,10 +30,10 @@ namespace MauiAppMinhasCompras.Helpers
 
         public Task<List<Produto>> Update(Produto p) 
         { 
-            string sql = "UPDATE Produto SET Descricao = ?, Quantidade = ?, Preco = ? WHERE Id = ?";
+            string sql = "UPDATE Produto SET Descricao = ?, Categoria = ?, Quantidade = ?, Preco = ? WHERE Id = ?";
 
             return _conn.QueryAsync<Produto>(
-                sql, p.Descricao, p.Quantidade, p.Preco, p.Id);
+                sql, p.Descricao, p.Categoria, p.Quantidade, p.Preco,  p.Id);
         }
 
         public Task<int> Delete(int id) 

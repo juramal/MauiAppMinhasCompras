@@ -1,12 +1,18 @@
 using MauiAppMinhasCompras.Models;
 
+using MauiAppMinhasCompras.Helpers; // Adicione o namespace correto aqui
+
 namespace MauiAppMinhasCompras.Views;
 
 public partial class NovoProduto : ContentPage
 {
+    private SQLiteDatabaseHelper _db;
+
 	public NovoProduto()
 	{
 		InitializeComponent();
+        var databasePath = Path.Combine(FileSystem.AppDataDirectory, "produtos.db");
+        _db = new SQLiteDatabaseHelper(databasePath);
 	}
 
     private async void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -14,7 +20,9 @@ public partial class NovoProduto : ContentPage
        // Validação dos campos obrigatórios
 	   if (string.IsNullOrWhiteSpace(txt_descricao.Text) ||
 		   string.IsNullOrWhiteSpace(txt_quantidade.Text) ||
-		   string.IsNullOrWhiteSpace(txt_preco.Text))
+		   string.IsNullOrWhiteSpace(txt_preco.Text) ||
+           string.IsNullOrWhiteSpace(txt_categoria.Text))
+
 	   {
 		   await DisplayAlert("Erro", "Preencha todos os campos!", "OK");
 		   return;
@@ -32,12 +40,15 @@ public partial class NovoProduto : ContentPage
 		   Produto p = new Produto
 		   {
 			   Descricao = txt_descricao.Text,
-			   Quantidade = quantidade,
-			   Preco = preco
+               Categoria = txt_categoria.Text,
+               Quantidade = quantidade,
+			   Preco = preco,
+			   
 		   };
 
 		   await App.Db.Insert(p);
 		   await DisplayAlert("Sucesso!", "Registro Inserido", "OK");
+		   await Navigation.PopAsync();
 
 	   }
 	   catch (Exception ex)
